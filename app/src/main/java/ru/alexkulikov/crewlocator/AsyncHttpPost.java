@@ -45,12 +45,25 @@ public class AsyncHttpPost extends AsyncTask<String,String,String>
             conn.setDoOutput(true);
 
             outputStream = conn.getOutputStream();
-            writer = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
+            writer = new BufferedWriter(new OutputStreamWriter(outputStream));
 
             StringBuilder paramBuilder = new StringBuilder();
-            paramBuilder.append(URLEncoder.encode("GpsMessage", "UTF-8"));
+
+            paramBuilder.append("ClientID");
             paramBuilder.append("=");
-            paramBuilder.append(URLEncoder.encode(params[0], "UTF-8"));
+            paramBuilder.append(params[0]).append("&");
+
+            paramBuilder.append("Date");
+            paramBuilder.append("=");
+            paramBuilder.append(params[1]).append("&");
+
+            paramBuilder.append("Latitude");
+            paramBuilder.append("=");
+            paramBuilder.append(params[2]).append("&");
+
+            paramBuilder.append("Longitude");
+            paramBuilder.append("=");
+            paramBuilder.append(params[3]);
 
             writer.write(paramBuilder.toString());
             writer.flush();

@@ -26,7 +26,9 @@
 
             <EditText
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:id="@+id/crew_name"
+                android:singleLine="true"/>
         </LinearLayout>
 
         <LinearLayout
@@ -37,12 +39,15 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Интервал (сек):" />
+                android:text="Минимальное время обновления (сек):" />
 
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="number"/>
+                android:id="@+id/sec_edit"
+                android:inputType="number"
+                android:text="10"
+                android:singleLine="true"/>
         </LinearLayout>
 
         <LinearLayout
@@ -50,16 +55,61 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <Button
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/start_btn"
-                android:text="Старт"/>
+                android:text="Минимальная дистанция обновления (м):" />
 
-            <Button
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/metr_edit"
+                android:inputType="number"
+                android:text="10"
+                android:singleLine="true"/>
+        </LinearLayout>
+
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/providers"
+            android:checkedButton="@+id/provider_all">
+
+            <RadioButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Запустить в фоне"/>
+                android:text="Только сеть"
+                android:id="@+id/provider_net"/>
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Только спутники"
+                android:id="@+id/provider_sat"/>
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Все подряд"
+                android:id="@+id/provider_all"/>
+        </RadioGroup>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingTop="50dp"
+            android:gravity="center">
+
+            <ToggleButton
+                android:id="@+id/start_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Начать отслеживание" />
 
         </LinearLayout>
 

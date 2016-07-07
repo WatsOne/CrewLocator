@@ -2,6 +2,7 @@ package ru.alexkulikov.crewlocator;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
@@ -64,46 +65,33 @@ public class MainActivity extends AppCompatActivity {
 
     @SuppressWarnings({"MissingPermission"})
     private void processLocation(boolean processStart) {
-        if (tracker != null && !processStart) {
-            tracker.stop();
+        Intent intent = new Intent(this, TrackerService.class);
+        if (!processStart) {
+            stopService(intent);
             return;
         }
 
-        long minSec = Long.valueOf(secEditText.getText().toString());
-        long minMetr = Long.valueOf(metrEditText.getText().toString());
-
-        final String name = crewName.getText().toString();
-
         int providerIndex = providersRadio.getCheckedRadioButtonId();
+
         switch (providerIndex) {
-            case R.id.provider_net:
-                tracker = new ProviderLocationTracker(this, ProviderLocationTracker.ProviderType.NETWORK, minSec, minMetr);
-                break;
             case R.id.provider_sat:
-                if (isGpsEnabled()) {
-                    tracker = new ProviderLocationTracker(this, ProviderLocationTracker.ProviderType.GPS, minSec, minMetr);
+                if (!isGpsEnabled()) {
+                   return;
                 }
                 break;
             case R.id.provider_all:
-                if (isGpsEnabled()) {
-                    tracker = new FallbackLocationTracker(this, minSec, minMetr);
+                if (!isGpsEnabled()) {
+                    return;
                 }
                 break;
         }
 
-        if (tracker == null) {
-            return;
-        }
+       intent.putExtra(Preferences.CREW_NAME, crewName.getText().toString());
+       intent.putExtra(Preferences.MIN_TIME, Long.valueOf(secEditText.getText().toString()));
+       intent.putExtra(Preferences.MIN_DISTANCE, Long.valueOf(metrEditText.getText().toString()));
+       intent.putExtra(Preferences.TRACKER_TYPE, providerIndex);
 
-        tracker.start(new LocationTracker.LocationUpdateListener() {
-            @Override
-            public void onUpdate(Location oldLoc, long oldTime, Location newLoc, long newTime) {
-                if (newLoc != null) {
-                    AsyncHttpPost asyncHttpPost = new AsyncHttpPost(MainActivity.this);
-                    asyncHttpPost.execute(name, sdf.format(new Date()), String.valueOf(newLoc.getLatitude()), String.valueOf(newLoc.getLongitude()));
-                }
-            }
-        });
+        startService(intent);
     }
 
     private boolean isGpsEnabled() {

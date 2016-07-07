@@ -1,12 +1,7 @@
 package ru.alexkulikov.crewlocator;
 
-/**
- * Created by BigWats on 02.07.2016.
- */
-import android.app.Activity;
-import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.AsyncTask;
-import android.util.Log;
 import android.widget.Toast;
 
 import java.io.BufferedWriter;
@@ -15,16 +10,16 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLEncoder;
+
 
 import javax.net.ssl.HttpsURLConnection;
 
 
 public class AsyncHttpPost extends AsyncTask<String,String,String>
 {
-    private Activity source;
+    private Context source;
 
-    public AsyncHttpPost(Activity source) {
+    public AsyncHttpPost(Context source) {
         this.source = source;
     }
 
